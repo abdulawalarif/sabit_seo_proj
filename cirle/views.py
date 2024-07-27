@@ -39,3 +39,4 @@ def home(request):
 
 
 #https://awalarifseo.pythonanywhere.com/
+#Under this email arifawal95@gmail.com and Pass: :v!h8Gv#xD=Pb6M userName: awalarifSeO
