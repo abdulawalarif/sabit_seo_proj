@@ -36,3 +36,6 @@ def home(request):
                 data_list = generate_coordinates(latitude, longitude, radius, total_locations)
 
     return render(request, 'index.html', {'form': form, 'data_list': data_list})
+
+
+#https://awalarifseo.pythonanywhere.com/
