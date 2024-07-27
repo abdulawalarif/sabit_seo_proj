@@ -11,6 +11,7 @@ class LocationForm(forms.Form):
         widget=forms.NumberInput(attrs={'placeholder': 'Enter longitude'})
     )
     radius = forms.FloatField(
+        label='Radius in Km',
         required=True,
         widget=forms.NumberInput(attrs={'placeholder': 'Enter radius in kilometers'})
     )

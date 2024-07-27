@@ -2,22 +2,49 @@
 <html>
 <head>
     <title>Home</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        ul {
+            list-style-type: none; /* Remove list dots */
+            padding: 0; /* Remove default padding */
+        }
+        li {
+            padding: 5px 0; /* Add some space between list items */
+        }
+    </style>
 </head>
 <body>
-    <h1>Generate your data</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Generate Data</button>
-    </form>
+    <div class="container">
+        <h1>Generate your data</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Generate Data</button>
+        </form>
 
-    {% if data_list %}
-        <h2>Generated Coordinates:</h2>
-        <ul>
-            {% for coord in data_list %}
-                <li>{{ coord.0 }}, {{ coord.1 }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+        {% if data_list %}
+            <h2>Generated Coordinates:</h2>
+            <ul>
+                {% for coord in data_list %}
+                    <li>{{ coord.0 }}, {{ coord.1 }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
 </body>
 </html>
