@@ -26,7 +26,30 @@
         li {
             padding: 5px 0; /* Add some space between list items */
         }
+        .copy-button-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
     </style>
+    <script>
+        function copyToClipboard() {
+            const coordinatesList = document.getElementById('coordinates-list');
+            let coordinatesText = '';
+            coordinatesList.querySelectorAll('li').forEach((item) => {
+                coordinatesText += item.textContent + '\n';
+            });
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = coordinatesText;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+
+            alert('Coordinates copied to clipboard!');
+        }
+    </script>
 </head>
 <body>
     <div class="container">
@@ -38,8 +61,11 @@
         </form>
 
         {% if data_list %}
-            <h2>Generated Coordinates:</h2>
-            <ul>
+            <div class="copy-button-container">
+                <h2>Generated Coordinates:</h2>
+                <button onclick="copyToClipboard()">Copy All</button>
+            </div>
+            <ul id="coordinates-list">
                 {% for coord in data_list %}
                     <li>{{ coord.0 }}, {{ coord.1 }}</li>
                 {% endfor %}

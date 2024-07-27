@@ -1,14 +1,9 @@
-# forms.py
 from django import forms
 
 class LocationForm(forms.Form):
-    latitude = forms.FloatField(
+    lat_lon = forms.CharField(
         required=True,
-        widget=forms.NumberInput(attrs={'placeholder': 'Enter latitude'})
-    )
-    longitude = forms.FloatField(
-        required=True,
-        widget=forms.NumberInput(attrs={'placeholder': 'Enter longitude'})
+        widget=forms.TextInput(attrs={'placeholder': 'Enter latitude,longitude (e.g., 23.88826,90.39065)'})
     )
     radius = forms.FloatField(
         label='Radius in Km',

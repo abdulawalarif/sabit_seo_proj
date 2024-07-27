@@ -1,4 +1,3 @@
-# views.py
 from django.shortcuts import render
 from .forms import LocationForm
 import math
@@ -20,15 +19,20 @@ def generate_coordinates(lat, lon, distance_km, num_points=2000):
     return coordinates
 
 def home(request):
+    form = LocationForm()
+    data_list = None
+
     if request.method == 'POST':
         form = LocationForm(request.POST)
         if form.is_valid():
-            latitude = form.cleaned_data['latitude']
-            longitude = form.cleaned_data['longitude']
-            radius = form.cleaned_data['radius']
-            total_locations = form.cleaned_data['total_locations']
-            data_list = generate_coordinates(latitude, longitude, radius, total_locations)
-            return render(request, 'index.html', {'form': form, 'data_list': data_list})
-    else:
-        form = LocationForm()
-    return render(request, 'index.html', {'form': form})
+            lat_lon = form.cleaned_data['lat_lon']
+            try:
+                latitude, longitude = map(float, lat_lon.split(','))
+            except ValueError:
+                form.add_error('lat_lon', 'Invalid format. Use "latitude,longitude".')
+            else:
+                radius = form.cleaned_data['radius']
+                total_locations = form.cleaned_data['total_locations']
+                data_list = generate_coordinates(latitude, longitude, radius, total_locations)
+
+    return render(request, 'index.html', {'form': form, 'data_list': data_list})
