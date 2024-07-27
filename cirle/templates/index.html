@@ -19,35 +19,43 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        ul {
-            list-style-type: none; /* Remove list dots */
-            padding: 0; /* Remove default padding */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
         }
-        li {
-            padding: 5px 0; /* Add some space between list items */
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
         }
-        .copy-button-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        th {
+            background-color: #f2f2f2;
+        }
+        .copy-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
     <script>
         function copyToClipboard() {
-            const coordinatesList = document.getElementById('coordinates-list');
-            let coordinatesText = '';
-            coordinatesList.querySelectorAll('li').forEach((item) => {
-                coordinatesText += item.textContent + '\n';
+            const coordinates = document.querySelectorAll('.coordinate');
+            let coordText = '';
+            coordinates.forEach(coord => {
+                coordText += coord.innerText + '\n';
             });
-            
-            const textarea = document.createElement('textarea');
-            textarea.value = coordinatesText;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-
-            alert('Coordinates copied to clipboard!');
+            navigator.clipboard.writeText(coordText.trim()).then(function() {
+                alert('Coordinates copied to clipboard!');
+            }, function(err) {
+                alert('Failed to copy: ', err);
+            });
         }
     </script>
 </head>
@@ -61,15 +69,24 @@
         </form>
 
         {% if data_list %}
-            <div class="copy-button-container">
-                <h2>Generated Coordinates:</h2>
-                <button onclick="copyToClipboard()">Copy All</button>
-            </div>
-            <ul id="coordinates-list">
-                {% for coord in data_list %}
-                    <li>{{ coord.0 }}, {{ coord.1 }}</li>
-                {% endfor %}
-            </ul>
+            <h2>Generated Coordinates:</h2>
+            <button class="copy-button" onclick="copyToClipboard()">Copy All</button>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Line</th>
+                        <th>Coordinates</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for coord in data_list %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td class="coordinate">{{ coord.0 }}, {{ coord.1 }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         {% endif %}
     </div>
 </body>
