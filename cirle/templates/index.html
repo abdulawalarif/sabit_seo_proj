@@ -48,8 +48,11 @@
         function copyToClipboard() {
             const coordinates = document.querySelectorAll('.coordinate');
             let coordText = '';
-            coordinates.forEach(coord => {
+            coordinates.forEach((coord, index) => {
                 coordText += coord.innerText + '\n';
+                if ((index + 1) % 2000 == 0) {
+                    coordText += '\n';  // Add an empty line after every 2000 coordinates
+                }
             });
             navigator.clipboard.writeText(coordText.trim()).then(function() {
                 alert('Coordinates copied to clipboard!');
@@ -80,6 +83,11 @@
                 </thead>
                 <tbody>
                     {% for coord in data_list %}
+                        {% if forloop.counter0|divisibleby:2000 and forloop.counter0 != 0 %}
+                            <tr>
+                                <td colspan="2" style="text-align: center; font-weight: bold; background-color: #e0e0e0;">--- 2000 Coordinates Separator ---</td>
+                            </tr>
+                        {% endif %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
                             <td class="coordinate">{{ coord.0 }}, {{ coord.1 }}</td>
